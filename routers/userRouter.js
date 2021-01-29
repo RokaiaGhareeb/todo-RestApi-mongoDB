@@ -77,8 +77,8 @@ userRoute.delete('/', async(req, res) =>{
     res.send({message : 'user deleted'});
     res.statusCode = 200;
   } catch (err) {
-    res.send({message: 'deletion falied'});
     res.statusCode = 422;
+    res.send({message: 'deletion falied'});
   }
 });
 
@@ -89,11 +89,11 @@ userRoute.get('/profile', async(req, res) =>{
     const id = req.signedData.id;
     const user = await User.findOne({_id: id}, {password : 0});
     const todos = await Todo.find({userId : id})
-    res.send({user: user, todos : todos});
     res.statusCode = 200;
+    res.send({user: user, todos : todos});
   } catch (error) {
-    res.send(error);
-    res.statusCode = 422;
+    res.statusCode = 401;
+    res.send({message :'user not found'});
   }
 });
 
@@ -103,10 +103,10 @@ userRoute.patch('/', async(req, res) => {
     const _id = req.signedData.id;
     const { username, fname, password, age } = req.body;
     const editedUser = await User.updateOne({_id}, {username, fname, password, age});
-    res.send({editedUser: editedUser});
     res.statusCode = 200;
+    res.send({editedUser: editedUser});
   } catch (err) {
-    res.send({message: 'edit failed'});
     res.statusCode = 422;
+    res.send({message: 'edit failed'});
   }
 });

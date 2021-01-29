@@ -29,27 +29,27 @@ todoRoute.post('/', async (req, res) => {
 todoRoute.get('/', async (req, res) => {
   try {
     const todos = await Todo.find({ userId : req.signedData.id }).exec();
-    res.send(todos);
     res.statusCode = 200;
+    res.send(todos);
 
   } catch (error) {
-    res.send({ message: 'not found' });
     res.statusCode = 422;
+    res.send({ message: 'not found' });
 
   }
 });
 
-//get a specific todd using todo-id
+//get a specific todo using todo-id
 todoRoute.get('/:id', async(req, res) =>{
   try {
     const userId = req.signedData.id;
     const id = req.params.id;
     const todo = await Todo.findOne({userId:userId, _id:id});
-    res.send({todo : todo});
     res.statusCode = 200;
+    res.send({todo : todo});
   } catch (err) {
-    res.send({message: 'not dound'});
     res.statusCode = 401;
+    res.send({message: 'not dound'});
   }
 });
 
@@ -59,11 +59,11 @@ todoRoute.delete('/:id', async(req, res) =>{
     const userId = req.signedData.id;
     const id = req.params.id;
     await Todo.deleteOne({userId:id, _id:id});
-    res.send({message : 'todo deleted'});
     res.statusCode = 200;
+    res.send({message : 'todo deleted'});
   } catch (err) {
-    res.send({message: 'deletion falied'});
     res.statusCode = 422;
+    res.send({message: 'deletion falied'});
   }
 });
 
@@ -75,10 +75,10 @@ todoRoute.patch('/:id', async(req, res) => {
     const { title, body, tags, status} = req.body;
     const editedTodo = await Todo.updateOne({userId, _id},{title, body, tags, status });
     console.log(editedTodo);
-    res.send({editedTodo: editedTodo});
     res.statusCode = 200;
+    res.send({editedTodo: editedTodo});
   } catch (err) {
-    res.send({message: 'edit failed'});
     res.statusCode = 422;
+    res.send({message: 'edit failed'});
   }
 });
