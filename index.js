@@ -27,6 +27,12 @@ app.use((req, res, next) => {
     next();
   });
 
+//error handler
+app.use( (req, res, next) =>  {
+    res.status(500);
+    res.send({error : "server error"});
+});
+
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
 });
