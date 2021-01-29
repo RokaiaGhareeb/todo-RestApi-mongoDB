@@ -17,14 +17,22 @@ const auth = require('../midlewares/auth');
 module.exports = userRoute;
 
 //return all users   
-userRoute.get('/', async(req, res) => {
+userRoute.get('/', async(req, res, next) => {
   try {
     const users = await User.find({}, {password : 0}).exec();
     res.send(users);
     res.statusCode = 200;
   } catch (error) {
-    res.send(error);
-    res.statusCode = 422;
+    // res.send(error); // the response ends here
+    // //because res.send() : sends a response and ends it as well
+    // res.statusCode = 422; // So, This line is unreachable
+
+    // So u can do 
+    res.status(422).send(error);
+
+    // or i prefer pass this error to the error handling middleware
+    // by send it as a parameter to next(error)
+    next(error);
   }
 });
 
