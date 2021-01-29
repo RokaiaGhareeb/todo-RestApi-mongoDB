@@ -23,8 +23,8 @@ userRoute.get('/', async(req, res) => {
     res.send(users);
     res.statusCode = 200;
   } catch (error) {
-    res.send(error);
     res.statusCode = 422;
+    res.send({message : 'error'});
   }
 });
 
@@ -35,13 +35,13 @@ userRoute.post('/', async (req, res) => {
     const { username, fname, password, age } = req.body;
     const hash = await bcrypt.hash(password, 7);
     const user = await User.create({ username, fname, password: hash, age });
-    res.send(user);
     res.statusCode = 200;
+    res.send(user);
   }
   catch(err) { 
     console.log(err);
-    res.send({sucess: false});
     res.statusCode = 422;
+    res.send({sucess: false});
   }
 });
 
