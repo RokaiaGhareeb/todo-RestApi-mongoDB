@@ -11,16 +11,9 @@ const schema = mongoose.Schema({
             type : String,
             required: true
         },
-        fname:{
+        email:{
             type: String,
-            minLength: 3,
-            maxLength: 15,
-            require : true
-        },
-        age:{
-            type: Number,
-            min : 13,
-
+            required : true,
         }
 
 }, {timestamps: true});
