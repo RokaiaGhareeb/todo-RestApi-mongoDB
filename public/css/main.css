@@ -19,3 +19,10 @@ body{
     border-right: 100px solid transparent;
   }
 
+  
+.triangle-bottomright {
+    width: 100%;
+    height: 100%;
+    border-bottom: 100px solid rgb(248, 153, 61);
+    border-left: 100px solid transparent;
+  }

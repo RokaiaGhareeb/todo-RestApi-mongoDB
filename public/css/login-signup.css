@@ -8,9 +8,10 @@ body{
 }
 
 .form{
-    background-color: rgb(241, 188, 25);
+    background-color: rgb(248, 153, 61);
     border-radius: 20px;
 }
+
 
 .triangle-topleft {
     width: 100%;
