@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>To-Do</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="./css/login-signup.css" rel='stylesheet'>
+</head>
+
+<body>
+
+    <div class='container-fluid d-flex justify-content-center align-items-center' style='height: 100%;'>
+        <div class='triangle-topleft'></div>
+        <div value="value" id='loginform' class='container form px-5 py-3 col-4'
+            style="height: fit-content; border-radius: 0px;">
+            <div class='d-flex justify-content-center'>
+                <img class='img-fluid' src="./assets/automatic-icon.png">
+            </div>
+            <div class="mb-3">
+                <label for="usernameinput" class="form-label text-white">Username</label>
+                <input value='' type="text" class="form-control" id="usernameinput" required>
+            </div>
+            <div class="mb-3">
+                <label for="passwordinput" class="form-label text-white">Password</label>
+                <input value='' type="password" class="form-control" id="passwordinput" required>
+            </div>
+            <div class=' mb-2 d-flex justify-content-center'>
+                <div id="warning" class="form-text" style="display: none;">Username or Password is not correct.</div>
+            </div>
+            <div class=' d-flex justify-content-center'>
+                <button onclick="login()" class="btn p-2 fs-4"
+                    style="background-color: rgb(177, 189, 201); color: white;">Login</button>
+            </div>
+        </div>
+        <div class='triangle-bottomright'></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src='./js/login.js'></script>
+</body>
+
+</html>

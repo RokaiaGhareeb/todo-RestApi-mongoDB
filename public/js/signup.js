@@ -39,15 +39,22 @@ async function signup() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)
             });
-            const result = await response.json();
-            console.log(result)
-            if (!result['sucess']) {
-                if (result['err'].keyPattern.username) {
+            const result1 = await response.json();
+            console.log(result1)
+            if (!result1['sucess']) {
+                if (result1['err'].keyPattern.username) {
                     usernamehelper.style.display = 'block';
                     return false;
                 }
             }
             else{
+                const response = await fetch('http://localhost:3000/api/user/login/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({"username" : username.value,  "password": password.value})
+            });
+            const result2 = await response.json();
+            document.cookie = "token="+ result2['token'] +"; expires=Thu, 18 Dec 2021 12:00:00 UTC";
                 window.location = './profile.html'
             }
         }

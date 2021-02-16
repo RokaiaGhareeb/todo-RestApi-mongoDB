@@ -55,7 +55,7 @@ userRoute.post('/login/', async(req, res) =>{
     if(!isMatched) throw new Error({message : "wrong usename or password"});
     const token = jwt.sign({id: user.id}, 'my-signing-secret');
       res.statusCode = 200;
-      res.send(token);
+      res.send({sucess: true, token : token});
   } catch (err) {
     console.log(err);
     res.send({sucess: false});
