@@ -32,16 +32,16 @@ userRoute.get('/', async(req, res) => {
 userRoute.post('/', async (req, res) => {
   try {
 
-    const { username, fname, password, age } = req.body;
+    const { username, password, email } = req.body;
     const hash = await bcrypt.hash(password, 7);
-    const user = await User.create({ username, fname, password: hash, age });
+    const user = await User.create({ username, password: hash, email });
     res.statusCode = 200;
-    res.send(user);
+    res.send({sucess: true, user});
   }
   catch(err) { 
     console.log(err);
     res.statusCode = 422;
-    res.send({sucess: false});
+    res.send({sucess: false, err});
   }
 });
 
@@ -101,8 +101,8 @@ userRoute.get('/profile', async(req, res) =>{
 userRoute.patch('/', async(req, res) => {
   try {
     const _id = req.signedData.id;
-    const { username, fname, password, age } = req.body;
-    const editedUser = await User.updateOne({_id}, {username, fname, password, age});
+    const { username, password, email } = req.body;
+    const editedUser = await User.updateOne({_id}, {username, password, email});
     res.statusCode = 200;
     res.send({editedUser: editedUser});
   } catch (err) {
