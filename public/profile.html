@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>To-Do profile</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href = './css/profile.css' rel ='stylesheet'>
 </head>
-<body>
-    
+
+<body onload="getProfile()">
+    <div class='parent'>
+        <div class = 'menu'>
+            <div class='menu-section pt-2 pb-3' style="height: 60%; justify-content: unset;">
+                <img class="img-fluid" src='./assets/automatic-icon.png'>
+                <div id='username' class = 'fs-3' style='color:rgb(177, 189, 201)'></div>
+                <div id='email' class = 'fs-6' style='color:rgb(177, 189, 201)'></div>
+                <!-- <hr style='height: 3px; width: 100%; color: white;'> -->
+            </div>
+            <div class= 'menu-section' style="height: 60%;">
+                <div class = 'menu-item px-3 fs-3'>
+                    <span>To-Do</span> 
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </div>
+                <div class = 'menu-item mt-4 px-3 fs-3'>
+                    <span>List</span> 
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </div>
+                <div class = 'menu-item mt-4 px-3 fs-4'>
+                    <span>Edit Profile</span> 
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </div>
+                <hr style='height: 3px; width: 100%; color: white;'>
+            </div>
+            <div class='menu-section'>
+                <div class='menu-item  mt-4 px-3 fs-6 pb-4' onclick="logout()">
+                    <span>Logout</span>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class='todos'>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src='./js/profile.js'></script>
 </body>
+
 </html>
