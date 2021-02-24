@@ -74,25 +74,27 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body px-4">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
-                        placeholder="Title">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
-                        placeholder="Description">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
+                        <input id='todoTitle' style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
+                        placeholder="Title" minlength="10" maxlength="20">
+                        <div id='titlewarning' class="form-text" style="display: none;">To-Do should have a title.</div>
+                        <input id='todoDesc' style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
+                        placeholder="Description"  minlength="10" maxlength="500">
+                        <div  id='descwarning' class="form-text" style="display: none;">To-Do should have a description.</div>
+                        <input id='todoTag' style="background-color: rgb(237, 237, 237);" class="form-control m-2" type="text"
                         placeholder="Tags">
                         <div class="container d-flex justify-content-center">
                             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
+                                <input type="radio" class="btn-check" name="btnradio" id="todorb" autocomplete="off" value='todo'
                                 checked>
-                                <label class="btn btn-outline-secondary" for="btnradio1">To-Do</label>
+                                <label class="btn btn-outline-secondary" for="todorb">To-Do</label>
                                 
-                                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                                <label class="btn btn-outline-secondary" for="btnradio2">In-Progress</label>
+                                <input type="radio" class="btn-check" name="btnradio" id="inprogressrb" autocomplete="off" value='inprogress'>
+                                <label class="btn btn-outline-secondary" for="inprogressrb">In-Progress</label>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn"
+                        <button id='addAddBtn' type="button" class="btn" onclick="addTodo()"
                         style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
                     </div>
             </div>
