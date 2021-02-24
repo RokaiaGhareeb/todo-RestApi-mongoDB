@@ -25,9 +25,9 @@ async function getTodos(){
         headers: { 'Content-Type': 'application/json', 'Authorization': getToken()},
     });
     const result = await response.json();
-    for(var i = 0; i < result['todos'].length; i++){
-        todos.innerText = result['todos'][i].title;
-    }
+    // for(var i = 0; i < result['todos'].length; i++){
+    //     todos.innerText = result['todos'][i].title;
+    // }
 }
 
 async function addTodo(){
