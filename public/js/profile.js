@@ -69,13 +69,13 @@ function createCard(todo) {
   let edit = document.createElement("div");
   edit.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>';
   edit.className = 'm-2 fs-5';
-
   let del = document.createElement("div");
-  del.innerHTML = '<i class="fa fa-trash" aria-hidden="true"></i>';
+  del.innerHTML = '<i class="fa fa-trash" aria-hidden="true"  onclick="deleteTodo(this)"></i>';
   del.className = 'm-2 fs-5';
 
   let mbtns = document.createElement('div');
   mbtns.className = 'mbtns';
+  mbtns.id = todo._id;
   mbtns.appendChild(edit);
   mbtns.appendChild(del);
 
@@ -146,7 +146,18 @@ async function addTodo() {
   createCard(result);
 }
 
-async function deleteTodo() {}
+async function deleteTodo(e){
+  const id = e.parentNode.parentNode.id;
+  console.log(id)
+  const response = await fetch("http://localhost:3000/api/todo/" + id, {
+    method: "DELETE",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+  });
+  const result = await response.json();
+  console.log(result);
+  e.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+}
 
 async function editTodo() {}
 

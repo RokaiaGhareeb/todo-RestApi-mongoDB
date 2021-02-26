@@ -105,6 +105,7 @@ body{
     justify-content: space-around;
     align-items: center;
     color: rgb(237, 237, 237);
+    cursor: pointer;
 }
 
 .todo-footer{
