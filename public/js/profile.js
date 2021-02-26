@@ -14,6 +14,16 @@ let addTodoModal = new bootstrap.Modal(
     keyboard: false,
   }
 );
+let usernameEdit = document.getElementById('usernameEdit');
+let emailEdit = document.getElementById('emailEdit');
+let usernameEditwarning = document.getElementById('usernameEditwarning');
+let emailEditwarning = document.getElementById('emailEditwarning');
+let EditProfileModal = new bootstrap.Modal(
+  document.getElementById("exampleModal2"),
+  {
+    keyboard: false,
+  }
+);
 
 function getToken() {
   var token = "token" + "=";
@@ -65,7 +75,7 @@ function createCard(todo) {
   }
   status.className = "card-color " + stsClass;
 
-  
+
   let edit = document.createElement("div");
   edit.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>';
   edit.className = 'm-2 fs-5';
@@ -146,7 +156,7 @@ async function addTodo() {
   createCard(result);
 }
 
-async function deleteTodo(e){
+async function deleteTodo(e) {
   const id = e.parentNode.parentNode.id;
   console.log(id)
   const response = await fetch("http://localhost:3000/api/todo/" + id, {
@@ -159,7 +169,9 @@ async function deleteTodo(e){
   e.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
 }
 
-async function editTodo() {}
+async function editTodo() {
+
+}
 
 async function getProfile() {
   const response = await fetch("http://localhost:3000/api/user/profile", {
@@ -172,9 +184,29 @@ async function getProfile() {
   email.innerText = result["user"]["email"];
   console.log(result);
   getTodos();
+  usernameEdit.value = result["user"]["username"];
+  emailEdit.value = result["user"]["email"];
 }
 
-async function editProfile() {}
+async function editProfile() {
+  if (!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailEdit.value))) {
+    emailEditwarning.style.display = 'block'
+    return false;
+  } else {
+    emailEditwarning.style.display = 'none'
+    const user = { "username": usernameEdit.value, "email": emailEdit.value}
+            const response = await fetch('http://localhost:3000/api/user', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json', Authorization: getToken()},
+                body: JSON.stringify(user)
+            });
+            const result = await response.json();
+            console.log(result['username']);
+            username.innerText = result['username'];
+            email.innerText = result['email'];
+            EditProfileModal.hide();
+  }
+}
 
 async function logout() {
   window.location = "./login.html";
