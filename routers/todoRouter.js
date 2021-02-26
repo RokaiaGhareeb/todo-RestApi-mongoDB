@@ -58,7 +58,7 @@ todoRoute.delete('/:id', async(req, res) =>{
   try {
     const userId = req.signedData.id;
     const id = req.params.id;
-    await Todo.deleteOne({userId:id, _id:id});
+    await Todo.deleteOne({userId:userId, _id:id});
     res.statusCode = 200;
     res.send({message : 'todo deleted'});
   } catch (err) {

@@ -101,10 +101,11 @@ userRoute.get('/profile', async(req, res) =>{
 userRoute.patch('/', async(req, res) => {
   try {
     const _id = req.signedData.id;
-    const { username, password, email } = req.body;
-    const editedUser = await User.updateOne({_id}, {username, password, email});
+    const { username,  email } = req.body;
+    const editedUser = await User.updateOne({_id}, {username, email});
     res.statusCode = 200;
-    res.send({editedUser: editedUser});
+    console.log(editedUser);
+    res.send({username, email});
   } catch (err) {
     res.statusCode = 422;
     res.send({message: 'edit failed'});
