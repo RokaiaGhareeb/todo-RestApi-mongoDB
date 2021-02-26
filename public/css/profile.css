@@ -54,3 +54,61 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.todo{
+    background-color: rgb(248, 153, 61);
+    width: 220px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* border-radius: 10px; */
+}
+
+.todoTitle{
+    color: rgb(237, 237, 237);
+}
+
+.date{
+    color: rgb(237, 237, 237);
+}
+
+.todosts{
+    background-color: rgb(237, 237, 237);
+    border-radius: 20px;
+    padding: 5px;
+    color : rgb(248, 153, 61);
+    width: fit-content;
+    text-align: center;
+}
+
+.inprogress{
+    background-color: rgb(251, 255, 0);
+    border-radius: 20px;
+    padding: 5px;
+    color : white;
+    width: fit-content;
+    text-align: center;
+}
+
+.done{
+    background-color: rgb(63, 238, 63);
+    border-radius: 20px;
+    padding: 5px;
+    color : white;
+    width: fit-content;
+    text-align: center;
+}
+
+.mbtns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: rgb(237, 237, 237);
+}
+
+.todo-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
