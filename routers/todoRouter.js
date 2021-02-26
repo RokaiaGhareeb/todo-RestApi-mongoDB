@@ -82,3 +82,17 @@ todoRoute.patch('/:id', async(req, res) => {
     res.send({message: 'edit failed'});
   }
 });
+
+// filter todos by status
+todoRoute.get('/filter/:status', async(req, res) =>{
+  try {
+    const userId = req.signedData.id;
+    const filteredTodos = await Todo.find({userId, status : req.params.status});
+    console.log(filteredTodos);
+    res.statusCode = 200;
+    res.send(filteredTodos);
+  } catch (err) {
+    res.statusCode = 422;
+    res.send({message: 'no todos found'});
+  }
+});
