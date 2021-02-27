@@ -17,9 +17,12 @@ app.use(bodyParser.json());
 app.use(cors());
 const todoRoute = require('./routers/todoRouter');
 const userRoute = require('./routers/userRouter');
+const todolistRoute = require('./routers/todolistRouter');
 
 app.use('/api/todo', todoRoute);
 app.use('/api/user', userRoute);
+app.use('/api/todolist', todolistRoute);
+
 app.use(express.static('public'));
 
 //logger
