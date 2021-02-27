@@ -1,6 +1,7 @@
 let username = document.getElementById("username");
 let email = document.getElementById("email");
-let todos = document.getElementsByClassName("todos")[0];
+// let todos = document.getElementsByClassName("todos")[0];
+let todos;
 let todoTitle = document.getElementById("todoTitle");
 let todoDesc = document.getElementById("todoDesc");
 // let  todoTag = document.getElementById('todoTag');
@@ -110,9 +111,38 @@ async function getTodos() {
   });
   const result = await response.json();
   console.log(result["todos"]);
+  if (todos) {
+    document.getElementsByClassName('todos')[0].replaceWith(todos);
+    return;
+  }
+  document.getElementsByClassName('todos')[0].innerText = "";
+  todos = document.getElementsByClassName('todos')[0];
   result["todos"].forEach((todo) => {
     createCard(todo);
   });
+}
+
+async function filterTodos(filter) {
+  const response = await fetch("http://localhost:3000/api/todo/filter/" + filter, {
+    method: "GET",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+  });
+  const result = await response.json();
+  console.log(result);
+  if(result.length > 0){
+    if (todos) {
+      todos.innerHTML = "";
+    }
+  
+    todos = document.getElementsByClassName('todos')[0];
+    result.forEach((todo) => {
+      createCard(todo);
+    });
+  }else{
+    todos.innerText = "No card found!"
+    todos = undefined;
+  }
 }
 
 async function addTodo() {
@@ -194,17 +224,17 @@ async function editProfile() {
     return false;
   } else {
     emailEditwarning.style.display = 'none'
-    const user = { "username": usernameEdit.value, "email": emailEdit.value}
-            const response = await fetch('http://localhost:3000/api/user', {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json', Authorization: getToken()},
-                body: JSON.stringify(user)
-            });
-            const result = await response.json();
-            console.log(result['username']);
-            username.innerText = result['username'];
-            email.innerText = result['email'];
-            EditProfileModal.hide();
+    const user = { "username": usernameEdit.value, "email": emailEdit.value }
+    const response = await fetch('http://localhost:3000/api/user', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: getToken() },
+      body: JSON.stringify(user)
+    });
+    const result = await response.json();
+    console.log(result['username']);
+    username.innerText = result['username'];
+    email.innerText = result['email'];
+    EditProfileModal.hide();
   }
 }
 

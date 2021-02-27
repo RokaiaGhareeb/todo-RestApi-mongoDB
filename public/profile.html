@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link href='./css/profile.css' rel='stylesheet'>
+   
 </head>
 
 <body onload="getProfile()">
@@ -31,7 +32,7 @@
                 <div class='menu-item mt-4 px-3 fs-4'>
                     <span>Edit Profile</span>
                     <i class="fa fa-pencil-square-o" aria-hidden="true" type="button" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal2" onclick="console.log('done');"></i>
+                        data-bs-target="#exampleModal2"></i>
                 </div>
                 <hr style='height: 3px; width: 100%; color: white;'>
             </div>
@@ -45,7 +46,7 @@
         <div class='container-fluid'>
             <nav class="sticky-top navbar-light w-50 m-auto my-3"
                 style="background-color: rgb(248, 153, 61); border: 2px solid rgb(177, 189, 201); border-radius: 10px;">
-                <div class="container-fluid justify-content-center">
+                <div class="container-fluid justify-content-around align-items-center d-flex">
                     <form class="d-flex">
                         <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
                             type="number" max="31" min="1" placeholder="Day" aria-label="Search">
@@ -54,6 +55,18 @@
                         <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
                             class="btn m-2 fs-4" type="submit">Find</button>
                     </form>
+                    <div class="dropdown">
+                        <i class="fa fa-angle-down fs-2" style="color: rgb(237, 237, 237); cursor: pointer;"
+                            type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        </i>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button onclick="filterTodos('todo')" class="dropdown-item" type="button">To-Do</button>
+                            <button onclick="filterTodos('inprogress')" class="dropdown-item" type="button">In-progress</button>
+                            <button onclick="filterTodos('done')" class="dropdown-item" type="button">Done</button>
+                            <button onclick="getTodos()" class="dropdown-item" type="button">All</button>
+                          </div>
+                    </div>
                 </div>
             </nav>
             <div class='todos'>
@@ -120,7 +133,15 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous">
+    </script>
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     <script src='./js/profile.js'></script>
