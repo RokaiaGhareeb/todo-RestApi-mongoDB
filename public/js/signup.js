@@ -34,7 +34,7 @@ async function signup() {
         }else{
             passwordhelper.style.display = 'none';
             const user = { "username": username.value, "email": email.value, "password": password.value }
-            const response = await fetch('http://localhost:3000/api/user', {
+            const response = await fetch('https://nwetodo-restapi.herokuapp.com/api/user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(user)

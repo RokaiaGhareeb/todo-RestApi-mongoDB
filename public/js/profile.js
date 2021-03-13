@@ -204,7 +204,7 @@ async function editTodo() {
 }
 
 async function getProfile() {
-  const response = await fetch("http://localhost:3000/api/user/profile", {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/user/profile", {
     method: "GET",
     mode: "cors",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
