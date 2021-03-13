@@ -104,7 +104,7 @@ function createCard(todo) {
 }
 
 async function getTodos() {
-  const response = await fetch("http://localhost:3000/api/user/profile", {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/user/profile", {
     method: "GET",
     mode: "cors",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
@@ -123,7 +123,7 @@ async function getTodos() {
 }
 
 async function filterTodos(filter) {
-  const response = await fetch("http://localhost:3000/api/todo/filter/" + filter, {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/filter/" + filter, {
     method: "GET",
     mode: "cors",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
@@ -169,7 +169,7 @@ async function addTodo() {
   }
   if (inprogresssts.checked) status = inprogresssts.value;
   else if (todosts.checked) status = todosts.value;
-  const response = await fetch("http://localhost:3000/api/todo", {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo", {
     method: "POST",
     mode: "cors",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
@@ -189,7 +189,7 @@ async function addTodo() {
 async function deleteTodo(e) {
   const id = e.parentNode.parentNode.id;
   console.log(id)
-  const response = await fetch("http://localhost:3000/api/todo/" + id, {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/" + id, {
     method: "DELETE",
     mode: "cors",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
@@ -225,7 +225,7 @@ async function editProfile() {
   } else {
     emailEditwarning.style.display = 'none'
     const user = { "username": usernameEdit.value, "email": emailEdit.value }
-    const response = await fetch('http://localhost:3000/api/user', {
+    const response = await fetch('https://nwetodo-restapi.herokuapp.com/api/user', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', Authorization: getToken() },
       body: JSON.stringify(user)
