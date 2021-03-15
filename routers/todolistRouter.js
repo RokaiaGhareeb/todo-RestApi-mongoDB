@@ -101,3 +101,24 @@ todolistRoute.delete('/:id', async(req, res) =>{
         res.send({ success: false });
     }
 });
+
+//change status of an item done or not done
+todoRoute.patch('/changestatus/:listid/:itemid', async(req, res) => {
+    try {
+      const userId = req.signedData.id;
+      const listid = req.params.listid;
+      const itemid = req.params.itemid;
+      const { done } = req.body;
+      const editedTodo = await TodoList.updateOne(
+          {
+              userId, _id: listid, 
+              listItems : {$elemMatch: { _id: itemid}}},
+              { $set: { "listItems.$.done" : done } }
+        );
+      res.statusCode = 200;
+      res.send({ status });
+    } catch (err) {
+      res.statusCode = 422;
+      res.send({message: 'change failed'});
+    }
+  });
