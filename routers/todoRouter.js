@@ -68,7 +68,7 @@ todoRoute.delete('/:id', async(req, res) =>{
 });
 
 //edit todo
-todoRoute.patch('edit/:id', async(req, res) => {
+todoRoute.patch('/edit/:id', async(req, res) => {
   try {
     const userId = req.signedData.id;
     const _id = req.params.id;
@@ -83,7 +83,7 @@ todoRoute.patch('edit/:id', async(req, res) => {
 });
 
 //change todo status
-todoRoute.patch('changestatus/:id', async(req, res) => {
+todoRoute.patch('/changestatus/:id', async(req, res) => {
   try {
     const userId = req.signedData.id;
     const _id = req.params.id;

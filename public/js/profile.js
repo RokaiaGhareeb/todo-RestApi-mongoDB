@@ -210,7 +210,7 @@ async function deleteTodo(e) {
 
 async function editTodo() {
   const editedTodo = {"title" : todoTitleEdit.value, "body" : todoDescEdit.value}
-  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/edit" + cardID, {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/edit/" + cardID, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
     body:JSON.stringify(editedTodo)
@@ -272,6 +272,7 @@ async function initEditModal(e) {
 
 async function changeStatus(event){
   var id = event.target.parentNode.id;
+  console.log(id);
   var ele = event.target;
   var status;
   if(ele.innerText == "To-Do"){
@@ -290,7 +291,7 @@ async function changeStatus(event){
   const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/changestatus/" + id, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
-    body:JSON.stringify({status})
+    body:JSON.stringify({"status" : status})
   });
   const result = await response.json();
   console.log(result); 
