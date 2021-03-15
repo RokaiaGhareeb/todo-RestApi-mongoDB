@@ -89,8 +89,6 @@
                         type="text" placeholder="Description" minlength="10" maxlength="500">
                     <div id='descwarning' class="form-text" style="display: none;">To-Do should have a description.
                     </div>
-                    <input id='todoTag' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
-                        type="text" placeholder="Tags">
                     <div class="container d-flex justify-content-center">
                         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="todorb" autocomplete="off"
@@ -104,7 +102,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id='addAddBtn' type="button" class="btn" onclick="addTodo()"
+                    <button id='addTBtn' type="button" class="btn" onclick="addTodo()"
                         style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
                 </div>
             </div>
@@ -128,8 +126,33 @@
                     <div id='emailEditwarning' class="form-text" style="display: none;">Email should valid.</div>
                 </div>
                 <div class="modal-footer">
-                    <button id='addAddBtn' type="button" class="btn" onclick="editProfile()"
+                    <button id='editPBtn' type="button" class="btn" onclick="editProfile()"
                         style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: rgb(248, 153, 61);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3" style="color: rgb(177, 189, 201);">Edit Todo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  w-75 align-self-center">
+                    <input id='todoTitleEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Title">
+                    <div id='todoTitlewarning' class="form-text" style="display: none;">Title should be not less than 10 char.
+                    </div>
+
+                    <input id='todoDescEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Description">
+                    <div id='todoDescwarning' class="form-text" style="display: none;">provide descriptive description</div>
+                </div>
+                <div class="modal-footer">
+                    <button id='editTBtn' type="button" class="btn" onclick="editTodo()"
+                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Edit</button>
                 </div>
             </div>
         </div>

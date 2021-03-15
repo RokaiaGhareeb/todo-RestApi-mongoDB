@@ -19,10 +19,7 @@ const schema = new mongoose.Schema({
             enum : ["todo", "inprogress", "done"],
             required: true
         },
-        tags:{
-            type: [String],
-            maxlength: 10
-        },
+        
         
 },
 {timestamps: true});

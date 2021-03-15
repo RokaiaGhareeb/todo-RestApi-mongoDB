@@ -16,7 +16,7 @@ todoRoute.use(auth);
 todoRoute.post('/', async (req, res) => {
   const { title, status, tags, body } = req.body;
   try {
-    const todo = await Todo.create({ userId: req.signedData.id, title, body, status, tags });
+    const todo = await Todo.create({ userId: req.signedData.id, title, body, status});
     res.statusCode = 200;
     res.send(todo);
   } catch (err) {
@@ -72,11 +72,10 @@ todoRoute.patch('/:id', async(req, res) => {
   try {
     const userId = req.signedData.id;
     const _id = req.params.id;
-    const { title, body, tags, status} = req.body;
-    const editedTodo = await Todo.updateOne({userId, _id},{title, body, tags, status });
-    console.log(editedTodo);
+    const { title, body } = req.body;
+    const editedTodo = await Todo.updateOne({userId, _id},{title, body});
     res.statusCode = 200;
-    res.send({editedTodo: editedTodo});
+    res.send({ title, body });
   } catch (err) {
     res.statusCode = 422;
     res.send({message: 'edit failed'});

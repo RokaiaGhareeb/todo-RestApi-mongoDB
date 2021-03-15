@@ -1,10 +1,8 @@
 let username = document.getElementById("username");
 let email = document.getElementById("email");
-// let todos = document.getElementsByClassName("todos")[0];
 let todos;
 let todoTitle = document.getElementById("todoTitle");
 let todoDesc = document.getElementById("todoDesc");
-// let  todoTag = document.getElementById('todoTag');
 let todosts = document.getElementById("todorb");
 let inprogresssts = document.getElementById("inprogressrb");
 let titlewarning = document.getElementById("titlewarning");
@@ -25,6 +23,10 @@ let EditProfileModal = new bootstrap.Modal(
     keyboard: false,
   }
 );
+
+let todoTitleEdit = document.getElementById('todoTitleEdit');
+let todoDescEdit = document.getElementById('todoDescEdit');
+let cardID;
 
 function getToken() {
   var token = "token" + "=";
@@ -52,10 +54,11 @@ function createCard(todo) {
   let title = document.createElement("div");
   title.innerText = todo.title;
   title.className = "card-title todoTitle fs-4";
-
+  title.id = 'T' + todo._id;
   let desc = document.createElement("div");
   desc.innerText = todo.body;
   desc.className = "card-color";
+  desc.id = 'D' + todo._id;
 
   let date = document.createElement("div");
   const d = new Date(todo.updatedAt);
@@ -78,10 +81,10 @@ function createCard(todo) {
 
 
   let edit = document.createElement("div");
-  edit.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>';
+  edit.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" onclick="initEditModal(this)"></i>';
   edit.className = 'm-2 fs-5';
   let del = document.createElement("div");
-  del.innerHTML = '<i class="fa fa-trash" aria-hidden="true"  onclick="deleteTodo(this)"></i>';
+  del.innerHTML = '<i class="fa fa-trash" aria-hidden="true"  onclick = "deleteTodo(this)"></i>';
   del.className = 'm-2 fs-5';
 
   let mbtns = document.createElement('div');
@@ -130,16 +133,16 @@ async function filterTodos(filter) {
   });
   const result = await response.json();
   console.log(result);
-  if(result.length > 0){
+  if (result.length > 0) {
     if (todos) {
       todos.innerHTML = "";
     }
-  
+
     todos = document.getElementsByClassName('todos')[0];
     result.forEach((todo) => {
       createCard(todo);
     });
-  }else{
+  } else {
     todos.innerText = "No card found!"
     todos = undefined;
   }
@@ -200,7 +203,16 @@ async function deleteTodo(e) {
 }
 
 async function editTodo() {
-
+  const editedTodo = {"title" : todoTitleEdit.value, "body" : todoDescEdit.value}
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/" + cardID, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    body:JSON.stringify(editedTodo)
+  });
+  const result = await response.json();
+  console.log(result);
+ document.getElementById('T' + cardID).innerText = result["title"];
+ document.getElementById('D'+ cardID).innerText = result["body"];
 }
 
 async function getProfile() {
@@ -240,4 +252,12 @@ async function editProfile() {
 
 async function logout() {
   window.location = "./login.html";
+}
+
+async function initEditModal(e) {
+  cardID = e.parentNode.parentNode.id;
+  var selectedTodoTitle = document.getElementById('T'+cardID);
+  var selectedTodoDesc = document.getElementById('D'+ cardID);
+  todoTitleEdit.value = selectedTodoTitle.innerText;
+  todoDescEdit.value = selectedTodoDesc.innerText;
 }
