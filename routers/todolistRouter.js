@@ -111,8 +111,8 @@ todolistRoute.patch('/changestatus/:listid/:itemid', async(req, res) => {
       const { done } = req.body;
       const editedTodoList = await TodoList.updateOne(
           {
-              userId, _id: listid, 
-              listItems : {$elemMatch: { _id: itemid}}},
+              userId, "_id": listid, 
+              "listItems._id" : itemid},
               { $set: { "listItems.$.done" : done } }
         );
       res.statusCode = 200;
