@@ -68,17 +68,32 @@ todoRoute.delete('/:id', async(req, res) =>{
 });
 
 //edit todo
-todoRoute.patch('/:id', async(req, res) => {
+todoRoute.patch('edit/:id', async(req, res) => {
   try {
     const userId = req.signedData.id;
     const _id = req.params.id;
-    const { title, body } = req.body;
+    const { title, body} = req.body;
     const editedTodo = await Todo.updateOne({userId, _id},{title, body});
     res.statusCode = 200;
     res.send({ title, body });
   } catch (err) {
     res.statusCode = 422;
     res.send({message: 'edit failed'});
+  }
+});
+
+//change todo status
+todoRoute.patch('changestatus/:id', async(req, res) => {
+  try {
+    const userId = req.signedData.id;
+    const _id = req.params.id;
+    const { status } = req.body;
+    const editedTodo = await Todo.updateOne({userId, _id},{status});
+    res.statusCode = 200;
+    res.send({ status });
+  } catch (err) {
+    res.statusCode = 422;
+    res.send({message: 'change failed'});
   }
 });
 
