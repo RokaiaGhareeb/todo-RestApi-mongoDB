@@ -45,7 +45,7 @@ todolistRoute.post('/item/:id', async (req, res) => {
 // get all todoLists
 todolistRoute.get('/', async (req, res) => {
     try {
-        const todolist = await TodoList.find({ userId: req.signedData.id, _id: id }).exec();
+        const todolist = await TodoList.find({ userId: req.signedData.id}).exec();
         res.statusCode = 200;
         res.send(todolist);
 
@@ -56,11 +56,11 @@ todolistRoute.get('/', async (req, res) => {
     }
 });
 
-// get all a todolist
+// get  a todolist
 todolistRoute.get('/:id', async (req, res) => {
     const id = req.params.id;
     try {
-        const todolists = await TodoList.find({ userId: req.signedData.id }).exec();
+        const todolists = await TodoList.find({ userId: req.signedData.id,  _id: id }).exec();
         res.statusCode = 200;
         res.send(todolists);
 
