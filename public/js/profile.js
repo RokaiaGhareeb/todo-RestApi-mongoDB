@@ -273,19 +273,19 @@ async function initEditModal(e) {
 async function changeStatus(event){
   var id = event.target.parentNode.id;
   var ele = event.target;
-  var sts;
+  var status;
   if(ele.innerText == "To-Do"){
     ele.innerText = "In-progress";
     ele.className = "card-color inprogress";
-    sts = "inprogress";
+    status = "inprogress";
   }else if(ele.innerText == "In-progress"){
     ele.innerText = "Done";
     ele.className = "card-color done";
-    sts = "done";
+    status = "done";
   }else{
     ele.innerText = "To-Do";
     ele.className = "card-color todosts";
-    sts = "todo";
+    status = "todo";
   }
   const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/changestatus" + id, {
     method: "PATCH",
