@@ -14,7 +14,7 @@ todoRoute.use(auth);
 
 //add new todo
 todoRoute.post('/', async (req, res) => {
-  const { title, status, tags, body } = req.body;
+  const { title, status, body } = req.body;
   try {
     const todo = await Todo.create({ userId: req.signedData.id, title, body, status});
     res.statusCode = 200;
