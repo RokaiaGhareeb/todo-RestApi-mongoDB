@@ -16,7 +16,7 @@ todolistRoute.use(auth);
 todolistRoute.post('/', async (req, res) => {
     const { title } = req.body;
     try {
-      const todolist = await TodoList.create({ userId: req.signedData.id, title, listItems = []});
+      const todolist = await TodoList.create({ userId: req.signedData.id, title, listItems : []});
       res.statusCode = 200;
       res.send(todolist);
     } catch (err) {
