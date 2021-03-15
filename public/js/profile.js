@@ -23,10 +23,15 @@ let EditProfileModal = new bootstrap.Modal(
     keyboard: false,
   }
 );
-
 let todoTitleEdit = document.getElementById('todoTitleEdit');
 let todoDescEdit = document.getElementById('todoDescEdit');
 let cardID;
+let EditTodoModal = new bootstrap.Modal(
+  document.getElementById("exampleModal3"),
+  {
+    keyboard: false,
+  }
+);
 
 function getToken() {
   var token = "token" + "=";
@@ -78,7 +83,8 @@ function createCard(todo) {
     status.innerText = "Done";
   }
   status.className = "card-color " + stsClass;
-
+  status.id = 'S' + todo._id;
+  status.addEventListener('click', changeStatus);
 
   let edit = document.createElement("div");
   edit.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" onclick="initEditModal(this)"></i>';
@@ -89,14 +95,14 @@ function createCard(todo) {
 
   let mbtns = document.createElement('div');
   mbtns.className = 'mbtns';
-  mbtns.id = todo._id;
   mbtns.appendChild(edit);
   mbtns.appendChild(del);
-
+  
   let footer = document.createElement("div");
   footer.className = "todo-footer";
   footer.appendChild(status);
   footer.appendChild(mbtns);
+  footer.id = todo._id;
 
   cardBody.appendChild(title);
   cardBody.appendChild(desc);
@@ -190,7 +196,7 @@ async function addTodo() {
 }
 
 async function deleteTodo(e) {
-  const id = e.parentNode.parentNode.id;
+  const id = e.parentNode.parentNode.parentNode.id;
   console.log(id)
   const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/" + id, {
     method: "DELETE",
@@ -204,7 +210,7 @@ async function deleteTodo(e) {
 
 async function editTodo() {
   const editedTodo = {"title" : todoTitleEdit.value, "body" : todoDescEdit.value}
-  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/" + cardID, {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/edit" + cardID, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
     body:JSON.stringify(editedTodo)
@@ -213,6 +219,8 @@ async function editTodo() {
   console.log(result);
  document.getElementById('T' + cardID).innerText = result["title"];
  document.getElementById('D'+ cardID).innerText = result["body"];
+ EditTodoModal.hide();
+
 }
 
 async function getProfile() {
@@ -255,9 +263,33 @@ async function logout() {
 }
 
 async function initEditModal(e) {
-  cardID = e.parentNode.parentNode.id;
+  cardID = e.parentNode.parentNode.parentNode.id;
   var selectedTodoTitle = document.getElementById('T'+cardID);
   var selectedTodoDesc = document.getElementById('D'+ cardID);
   todoTitleEdit.value = selectedTodoTitle.innerText;
   todoDescEdit.value = selectedTodoDesc.innerText;
+}
+
+async function changeStatus(event){
+  var id = event.target.parentNode.id;
+  var ele = event.target;
+  var sts;
+  if(ele.innerText == "To-Do"){
+    ele.innerText = "In-progress";
+    ele.className = "card-color inprogress";
+    sts = "inprogress";
+  }else if(ele.innerText == "In-progress"){
+    ele.innerText = "Done";
+    ele.className = "card-color done";
+    sts = "done";
+  }else{
+    ele.innerText = "To-Do";
+    ele.className = "card-color todosts";
+    sts = "todo";
+  }
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/changestatus" + id, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    body:JSON.stringify({sts})
+  });
 }
