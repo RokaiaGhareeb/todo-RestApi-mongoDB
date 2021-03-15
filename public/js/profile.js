@@ -287,9 +287,11 @@ async function changeStatus(event){
     ele.className = "card-color todosts";
     status = "todo";
   }
-  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/changestatus" + id, {
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/changestatus/" + id, {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Authorization: getToken() },
-    body:JSON.stringify({sts})
+    body:JSON.stringify({status})
   });
+  const result = await response.json();
+  console.log(result); 
 }
