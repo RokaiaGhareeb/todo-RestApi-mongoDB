@@ -31,7 +31,7 @@ todolistRoute.post('/item/:id', async (req, res) => {
     const { title, done } = req.body;
     try {
         const todolist = await TodoList.updateOne(
-            { _id: id },
+            {userId: req.signedData.id, _id: id },
             { $push: { listItems: { title, done } } }
         );
         res.statusCode = 200;

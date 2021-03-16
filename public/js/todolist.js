@@ -128,7 +128,7 @@ async function addItemToList(e){
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json", Authorization: getToken() },
-      body:{"title" : inpt.value, "done": false}
+      body: JSON.stringify({"title" : inpt.value, "done": false})
   });
   const result = await response.json();
   console.log(result);
