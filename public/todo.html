@@ -10,7 +10,7 @@
    
 </head>
 
-<body onload="getProfile();   getTodos();">
+<body onload="getProfile(); todos = undefined;  getTodos();">
     
     <div class='parent'>
         <div class='menu'>
@@ -22,7 +22,7 @@
             </div>
             <div class='menu-section' style="height: 60%;">
                 <div class='menu-item px-3 fs-3'>
-                    <span onclick="todos = undefined; getTodos()">To-Do</span>
+                    <span>To-Do</span>
                     <i class="fa fa-plus" aria-hidden="true" type="button" data-bs-toggle="modal"
                         data-bs-target="#exampleModal"></i>
                 </div>
@@ -48,12 +48,12 @@
                 style="background-color: rgb(248, 153, 61); border: 2px solid rgb(177, 189, 201); border-radius: 10px;">
                 <div class="container-fluid justify-content-around align-items-center d-flex">
                     <form class="d-flex">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                        <input id="day" style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
                             type="number" max="31" min="1" placeholder="Day" aria-label="Search">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                        <input id="month" style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
                             type="number" max="12" min="1" placeholder="Month" aria-label="Search">
                         <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
-                            class="btn m-2 fs-4" type="submit">Find</button>
+                            class="btn m-2 fs-4" type="button" onclick="filterByDate()">Find</button>
                     </form>
                     <div class="dropdown">
                         <i class="fa fa-angle-down fs-2" style="color: rgb(237, 237, 237); cursor: pointer;"

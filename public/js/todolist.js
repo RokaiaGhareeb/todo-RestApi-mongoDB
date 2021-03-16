@@ -1,5 +1,12 @@
 let todolists;
-
+let todoListTitle = document.getElementById('todoListTitle');
+let warning = document.getElementById('titlewarning');
+let addTodoListModal = new bootstrap.Modal(
+  document.getElementById("exampleModal"),
+  {
+    keyboard: false,
+  }
+);
 function getToken() {
   var token = "token" + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
@@ -19,19 +26,30 @@ function getToken() {
 function createListCard(todolist) {
   let card = document.createElement("div");
   card.className = "card shadow cursor-pointer  m-4 bg-transparent rounded-3";
-  
+
   let cardBody = document.createElement("div");
   cardBody.className = "card-body todolist rounded-3";
-  
+
+  let cardHeader = document.createElement("div");
+  cardHeader.className = "cardHeader";
   let title = document.createElement("div");
   title.innerText = todolist.title;
   title.className = "card-title todoTitle fs-4";
   title.id = 'T' + todolist._id;
-  cardBody.appendChild(title);
   
+  let delBtn = document.createElement('div');
+  delBtn.innerHTML = '<i class="fa fa-trash" onclick="deleteList(this)" aria-hidden="true"  style="color:rgb(237, 237, 237);cursor: pointer;"></i>';
+  delBtn.className = 'm-2 fs-5';
+  
+  
+  cardHeader.appendChild(title);
+  cardHeader.appendChild(delBtn);
+
+  cardBody.appendChild(cardHeader);
+
   let Items = document.createElement('div');
   Items.id = todolist._id;
-  
+
   createListItem(todolist.listItems, Items);
 
   cardBody.appendChild(Items);
@@ -50,11 +68,17 @@ function createListCard(todolist) {
   addContainer.appendChild(addItemBtn);
 
   cardBody.appendChild(addContainer);
+  let date = document.createElement("div");
+    const d = new Date(todolist.createdAt);
+    date.innerText = d.toDateString();
+    date.className = "card-color date fs-6 text-center";
+    cardBody.appendChild(date);
+
   card.appendChild(cardBody);
   todolists.prepend(card);
 }
 
-function createListItem(listItems, Items){
+function createListItem(listItems, Items) {
   listItems.forEach(element => {
     let item = document.createElement('div');
     item.className = "item"
@@ -63,17 +87,19 @@ function createListItem(listItems, Items){
     let itemTitle = document.createElement('div');
     itemTitle.innerText = element.title;
     itemTitle.style.width = '70%';
-    itemTitle.id = 'it'+ element._id;
+    itemTitle.id = 'it' + element._id;
+    if (element.done)
+      itemTitle.className = "itemTicked"
 
     let itemTick = document.createElement('div');
-    itemTick.innerHTML = '<i class="fa fa-check" style = "color:green;cursor: pointer;"></i>';
-    itemTick.id = 'itck'+ element._id;
+    itemTick.innerHTML = '<i class="fa fa-check" onclick="tick(this)" style = "color:green;cursor: pointer;"></i>';
+    itemTick.id = 'itck' + element._id;
 
 
     let itemDel = document.createElement("div");
     itemDel.innerHTML = '<i class="fa fa-trash" onclick="deleteListItem(this)" aria-hidden="true"  style="color:rgb(237, 237, 237);cursor: pointer;"></i>';
     itemDel.className = 'm-2 fs-5';
-    itemDel.id = 'idl'+ element._id;
+    itemDel.id = 'idl' + element._id;
 
 
     item.appendChild(itemTitle);
@@ -109,56 +135,131 @@ async function deleteListItem(e) {
   console.log(listid);
 
   const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/item/" + listid + "/" + itemid, {
-      method: "DELETE",
-      mode: "cors",
-      headers: { "Content-Type": "application/json", Authorization: getToken() },
+    method: "DELETE",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
   });
   const result = await response.json();
   console.log(result);
   e.parentNode.parentNode.remove();
 }
 
-async function addItemToList(e){
+async function addItemToList(e) {
   const listid = e.parentNode.parentNode.previousElementSibling.id;
   console.log(listid);
   const inpt = document.getElementById('inp' + listid);
-  if(inpt.value === "") return false;
+  console.log(inpt.value);
+  if (inpt.value === "") return false;
 
   const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/item/" + listid, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json", Authorization: getToken() },
-      body: JSON.stringify({"title" : inpt.value, "done": false})
+    method: "POST",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    body: JSON.stringify({ "title": inpt.value, "done": false }),
   });
   const result = await response.json();
   console.log(result);
+  appendToItems(listid);
+  inpt.value = "";
 }
 
-// function appendToItems(listid){
-//   let Items = document.getElementById(listid);
+async function appendToItems(listid) {
+  let Items = document.getElementById(listid);
+  Items.innerHTML = "";
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/" + listid, {
+    method: "GET",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+  });
+  const result = await response.json();
+  console.log(result);
+  let list = result[0]['listItems'];
+  createListItem(list, Items);
+}
 
-//   let item = document.createElement('div');
-//   item.className = "item"
-//   item.id = element._id;
+async function tick(e) {
+  const itemid = e.parentNode.parentNode.id;
+  const listid = e.parentNode.parentNode.parentNode.id;
+  console.log(itemid);
+  console.log(listid);
 
-//   let itemTitle = document.createElement('div');
-//   itemTitle.innerText = element.title;
-//   itemTitle.style.width = '70%';
-//   itemTitle.id = 'it'+ element._id;
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/changestatus/" + listid + "/" + itemid, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    body: JSON.stringify({ "done": true }),
+  });
+  const result = await response.json();
+  console.log(result);
+  const title = document.getElementById('it' + itemid);
+  title.className = "itemTicked";
+}
 
-//   let itemTick = document.createElement('div');
-//   itemTick.innerHTML = '<i class="fa fa-check" style = "color:green;cursor: pointer;"></i>';
-//   itemTick.id = 'itck'+ element._id;
+async function addList() {
+  if (
+    todoListTitle.value === "" ||
+    todoListTitle.value.length > 20 ||
+    todoListTitle.value.length < 10
+  ) {
+    titlewarning.style.display = "block";
+    return false;
+  } else {
+    titlewarning.style.display = "none";
+  }
 
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/", {
+    method: "POST",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+    body: JSON.stringify({
+      title: todoListTitle.value,
+    }),
+  });
+  const result = await response.json();
+  console.log(result);
+  addTodoListModal.hide();
+  todoListTitle.value = "";
+  createListCard(result);
+}
 
-//   let itemDel = document.createElement("div");
-//   itemDel.innerHTML = '<i class="fa fa-trash" onclick="deleteListItem(this)" aria-hidden="true"  style="color:rgb(237, 237, 237);cursor: pointer;"></i>';
-//   itemDel.className = 'm-2 fs-5';
-//   itemDel.id = 'idl'+ element._id;
+async function deleteList(e){
+  const listid = e.parentNode.parentNode.nextElementSibling.id;
+  console.log(listid);
 
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/" + listid, {
+    method: "DELETE",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+  });
+  const result = await response.json();
+  console.log(result);
+  e.parentNode.parentNode.parentNode.remove();
+}
 
-//   item.appendChild(itemTitle);
-//   item.appendChild(itemTick);
-//   item.appendChild(itemDel);
-//   Items.appendChild(item);
-// }
+async function filterByDate(){
+  const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todolist/", {
+    method: "GET",
+    mode: "cors",
+    headers: { "Content-Type": "application/json", Authorization: getToken() },
+  });
+  const result = await response.json();
+  console.log(result);
+  let filterdList = [];
+  let day = document.getElementById('day');
+  let month = document.getElementById('month');
+  result.forEach(element => {
+    const date = new Date(element.createdAt);
+    if(date.getDate() == day.value && date.getMonth() + 1 == month.value){
+      filterdList.push(element);
+    }
+  });
+  if(filterdList.length > 0){
+
+    document.getElementsByClassName('todos')[0].innerText = "";
+    todolists = document.getElementsByClassName('todos')[0];
+    filterdList.forEach((todolist) => {
+      createListCard(todolist);
+    });
+  }else{
+    document.getElementsByClassName('todos')[0].innerText = "No Match";
+  }
+}

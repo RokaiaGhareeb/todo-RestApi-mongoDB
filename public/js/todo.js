@@ -54,7 +54,7 @@ function createCard(todo) {
     desc.id = 'D' + todo._id;
 
     let date = document.createElement("div");
-    const d = new Date(todo.updatedAt);
+    const d = new Date(todo.createdAt);
     date.innerText = d.toDateString();
     date.className = "card-color date fs-6";
 
@@ -242,3 +242,32 @@ async function changeStatus(event) {
     const result = await response.json();
     console.log(result);
 }
+
+async function filterByDate(){
+    const response = await fetch("https://nwetodo-restapi.herokuapp.com/api/todo/", {
+      method: "GET",
+      mode: "cors",
+      headers: { "Content-Type": "application/json", Authorization: getToken() },
+    });
+    const result = await response.json();
+    console.log(result);
+    let filterdList = [];
+    let day = document.getElementById('day');
+    let month = document.getElementById('month');
+    result.forEach(element => {
+        const date = new Date(element.createdAt);
+        if(date.getDate() == day.value && date.getMonth() + 1 == month.value){
+          filterdList.push(element);
+        }
+      });
+      if(filterdList.length > 0){
+    
+        document.getElementsByClassName('todos')[0].innerText = "";
+        todos = document.getElementsByClassName('todos')[0];
+        filterdList.forEach((todo) => {
+          createCard(todo);
+        });
+      }else{
+        document.getElementsByClassName('todos')[0].innerText = "No Match";
+      }
+  }

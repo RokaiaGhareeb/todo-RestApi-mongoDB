@@ -67,6 +67,7 @@ body{
 
 .todoTitle{
     color: rgb(237, 237, 237);
+    width: 70%;
 }
 
 .date{
@@ -142,4 +143,10 @@ body{
 
 .itemTicked{
     text-decoration: line-through;
+}
+
+.cardHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }

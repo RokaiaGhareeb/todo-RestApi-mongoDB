@@ -62,6 +62,7 @@ async function editProfile() {
   }
 }
 
+
 async function logout() {
   window.location = "./login.html";
 }

@@ -30,10 +30,11 @@ todolistRoute.post('/item/:id', async (req, res) => {
     const id = req.params.id;
     const { title, done } = req.body;
     try {
-        const todolist = await TodoList.updateOne(
+        await TodoList.updateOne(
             {userId: req.signedData.id, _id: id },
             { $push: { listItems: { title, done } } }
         );
+        
         res.statusCode = 200;
         res.send(todolist);
     } catch (err) {
@@ -124,3 +125,4 @@ todolistRoute.patch('/changestatus/:listid/:itemid', async (req, res) => {
         res.send({ message: 'change failed'});
     }
 });
+

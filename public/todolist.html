@@ -10,7 +10,7 @@
    
 </head>
 
-<body onload="getProfile(); getTodoLists()">
+<body onload="getProfile(); todolists = undefined; getTodoLists()">
     
     <div class='parent'>
         <div class='menu'>
@@ -27,7 +27,7 @@
                 </div>
                 <div class='menu-item mt-4 px-3 fs-3'>
                     <span >List</span>
-                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <i class="fa fa-plus" aria-hidden="true" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
                 </div>
                 <div class='menu-item mt-4 px-3 fs-4'>
                     <span>Edit Profile</span>
@@ -44,16 +44,18 @@
             </div>
         </div>
         <div class='container-fluid'>
-            <nav class="sticky-top navbar-light w-50 m-auto my-3"
+            <nav class="sticky-top navbar-light w-70 m-auto my-3"
                 style="background-color: rgb(248, 153, 61); border: 2px solid rgb(177, 189, 201); border-radius: 10px;">
                 <div class="container-fluid justify-content-around align-items-center d-flex">
                     <form class="d-flex">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                        <input id="day" style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
                             type="number" max="31" min="1" placeholder="Day" aria-label="Search">
-                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                        <input id="month" style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
                             type="number" max="12" min="1" placeholder="Month" aria-label="Search">
                         <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
-                            class="btn m-2 fs-4" type="submit">Find</button>
+                            class="btn m-2 fs-4" type="button" onclick="filterByDate()">Find</button>
+                            <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
+                            class="btn m-2 fs-4" type="button" onclick="todolists = undefined; getTodoLists()">All</button>
                     </form>
                     
                 </div>
@@ -63,6 +65,25 @@
         </div>
     </div>
     
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: rgb(248, 153, 61);;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(177, 189, 201);">New List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <input id='todoListTitle' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Title" minlength="10" maxlength="20">
+                    <div id='titlewarning' class="form-text" style="display: none;">List should have a title.</div>
+                </div>
+                <div class="modal-footer">
+                    <button id='addTBtn' type="button" class="btn" onclick="addList()"
+                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="background-color: rgb(248, 153, 61);">
