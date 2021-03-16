@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To-Do profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href='./css/profile.css' rel='stylesheet'>
+   
+</head>
+
+<body onload="getProfile();   getTodos();">
+    
+    <div class='parent'>
+        <div class='menu'>
+            <div class='menu-section pt-2 pb-3' style="height: 60%; justify-content: unset;">
+                <img class="img-fluid" src='./assets/automatic-icon.png'>
+                <div id='username' class='fs-3' style='color:rgb(177, 189, 201)'></div>
+                <div id='email' class='fs-6' style='color:rgb(177, 189, 201)'></div>
+                <!-- <hr style='height: 3px; width: 100%; color: white;'> -->
+            </div>
+            <div class='menu-section' style="height: 60%;">
+                <div class='menu-item px-3 fs-3'>
+                    <span onclick="todos = undefined; getTodos()">To-Do</span>
+                    <i class="fa fa-plus" aria-hidden="true" type="button" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"></i>
+                </div>
+                <div class='menu-item mt-4 px-3 fs-3'>
+                    <span onclick="window.location = './todolist.html'">List</span>
+                </div>
+                <div class='menu-item mt-4 px-3 fs-4'>
+                    <span>Edit Profile</span>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true" type="button" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal2"></i>
+                </div>
+                <hr style='height: 3px; width: 100%; color: white;'>
+            </div>
+            <div class='menu-section'>
+                <div class='menu-item  mt-4 px-3 fs-6 pb-4' onclick="logout()">
+                    <span>Logout</span>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class='container-fluid'>
+            <nav class="sticky-top navbar-light w-50 m-auto my-3"
+                style="background-color: rgb(248, 153, 61); border: 2px solid rgb(177, 189, 201); border-radius: 10px;">
+                <div class="container-fluid justify-content-around align-items-center d-flex">
+                    <form class="d-flex">
+                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                            type="number" max="31" min="1" placeholder="Day" aria-label="Search">
+                        <input style="background-color: rgb(237, 237, 237);" class="form-control m-2 text-center"
+                            type="number" max="12" min="1" placeholder="Month" aria-label="Search">
+                        <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
+                            class="btn m-2 fs-4" type="submit">Find</button>
+                    </form>
+                    <div class="dropdown">
+                        <i class="fa fa-angle-down fs-2" style="color: rgb(237, 237, 237); cursor: pointer;"
+                            type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        </i>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button onclick="filterTodos('todo')" class="dropdown-item" type="button">To-Do</button>
+                            <button onclick="filterTodos('inprogress')" class="dropdown-item" type="button">In-progress</button>
+                            <button onclick="filterTodos('done')" class="dropdown-item" type="button">Done</button>
+                            <button onclick="todos = undefined; getTodos()" class="dropdown-item" type="button">All</button>
+                          </div>
+                    </div>
+                </div>
+            </nav>
+            <div class='todos'>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: rgb(248, 153, 61);;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(177, 189, 201);">New To-Do</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4">
+                    <input id='todoTitle' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Title" minlength="10" maxlength="20">
+                    <div id='titlewarning' class="form-text" style="display: none;">To-Do should have a title.</div>
+                    <input id='todoDesc' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Description" minlength="10" maxlength="500">
+                    <div id='descwarning' class="form-text" style="display: none;">To-Do should have a description.
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" name="btnradio" id="todorb" autocomplete="off"
+                                value='todo' checked>
+                            <label class="btn btn-outline-secondary" for="todorb">To-Do</label>
+
+                            <input type="radio" class="btn-check" name="btnradio" id="inprogressrb" autocomplete="off"
+                                value='inprogress'>
+                            <label class="btn btn-outline-secondary" for="inprogressrb">In-Progress</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id='addTBtn' type="button" class="btn" onclick="addTodo()"
+                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: rgb(248, 153, 61);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2" style="color: rgb(177, 189, 201);">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  w-75 align-self-center">
+                    <input id='usernameEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Username">
+                    <div id='usernameEditwarning' class="form-text" style="display: none;">username should be unique.
+                    </div>
+
+                    <input id='emailEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="email" placeholder="Email">
+                    <div id='emailEditwarning' class="form-text" style="display: none;">Email should valid.</div>
+                </div>
+                <div class="modal-footer">
+                    <button id='editPBtn' type="button" class="btn" onclick="editProfile()"
+                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: rgb(248, 153, 61);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3" style="color: rgb(177, 189, 201);">Edit Todo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body  w-75 align-self-center">
+                    <input id='todoTitleEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Title">
+                    <div id='todoTitlewarning' class="form-text" style="display: none;">Title should be not less than 10 char.
+                    </div>
+
+                    <input id='todoDescEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
+                        type="text" placeholder="Description">
+                    <div id='todoDescwarning' class="form-text" style="display: none;">provide descriptive description</div>
+                </div>
+                <div class="modal-footer">
+                    <button id='editTBtn' type="button" class="btn" onclick="editTodo()"
+                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous">
+    </script>
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src='./js/profile.js'></script>
+    <script src='./js/todo.js'></script>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ async function login() {
             return false;
         }else{
             document.cookie = "token=" + result['token'] + "; expires=Thu, 18 Dec 2021 12:00:00 UTC";
-            window.location = './profile.html';
+            window.location = './todo.html';
         }
     }
 }

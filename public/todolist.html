@@ -10,7 +10,7 @@
    
 </head>
 
-<body onload="getProfile() ">
+<body onload="getProfile(); getTodoLists()">
     
     <div class='parent'>
         <div class='menu'>
@@ -22,12 +22,11 @@
             </div>
             <div class='menu-section' style="height: 60%;">
                 <div class='menu-item px-3 fs-3'>
-                    <span onclick="todos = undefined; getTodos()">To-Do</span>
-                    <i class="fa fa-plus" aria-hidden="true" type="button" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"></i>
+                    <span onclick="window.location = './todo.html'">To-Do</span>
+                    
                 </div>
                 <div class='menu-item mt-4 px-3 fs-3'>
-                    <span>List</span>
+                    <span >List</span>
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </div>
                 <div class='menu-item mt-4 px-3 fs-4'>
@@ -56,58 +55,14 @@
                         <button style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'
                             class="btn m-2 fs-4" type="submit">Find</button>
                     </form>
-                    <div class="dropdown">
-                        <i class="fa fa-angle-down fs-2" style="color: rgb(237, 237, 237); cursor: pointer;"
-                            type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        </i>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button onclick="filterTodos('todo')" class="dropdown-item" type="button">To-Do</button>
-                            <button onclick="filterTodos('inprogress')" class="dropdown-item" type="button">In-progress</button>
-                            <button onclick="filterTodos('done')" class="dropdown-item" type="button">Done</button>
-                            <button onclick="getTodos()" class="dropdown-item" type="button">All</button>
-                          </div>
-                    </div>
+                    
                 </div>
             </nav>
             <div class='todos'>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background-color: rgb(248, 153, 61);;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color: rgb(177, 189, 201);">New To-Do</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-4">
-                    <input id='todoTitle' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
-                        type="text" placeholder="Title" minlength="10" maxlength="20">
-                    <div id='titlewarning' class="form-text" style="display: none;">To-Do should have a title.</div>
-                    <input id='todoDesc' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
-                        type="text" placeholder="Description" minlength="10" maxlength="500">
-                    <div id='descwarning' class="form-text" style="display: none;">To-Do should have a description.
-                    </div>
-                    <div class="container d-flex justify-content-center">
-                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="todorb" autocomplete="off"
-                                value='todo' checked>
-                            <label class="btn btn-outline-secondary" for="todorb">To-Do</label>
-
-                            <input type="radio" class="btn-check" name="btnradio" id="inprogressrb" autocomplete="off"
-                                value='inprogress'>
-                            <label class="btn btn-outline-secondary" for="inprogressrb">In-Progress</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id='addTBtn' type="button" class="btn" onclick="addTodo()"
-                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="background-color: rgb(248, 153, 61);">
@@ -133,31 +88,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background-color: rgb(248, 153, 61);">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel3" style="color: rgb(177, 189, 201);">Edit Todo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body  w-75 align-self-center">
-                    <input id='todoTitleEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
-                        type="text" placeholder="Title">
-                    <div id='todoTitlewarning' class="form-text" style="display: none;">Title should be not less than 10 char.
-                    </div>
-
-                    <input id='todoDescEdit' style="background-color: rgb(237, 237, 237);" class="form-control m-2"
-                        type="text" placeholder="Description">
-                    <div id='todoDescwarning' class="form-text" style="display: none;">provide descriptive description</div>
-                </div>
-                <div class="modal-footer">
-                    <button id='editTBtn' type="button" class="btn" onclick="editTodo()"
-                        style='background-color: rgb(237, 237, 237); color: rgb(177, 189, 201);'>Edit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
     </script>
@@ -169,6 +99,7 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     <script src='./js/profile.js'></script>
+    <script src='./js/todolist.js'></script>
 </body>
 
 </html>

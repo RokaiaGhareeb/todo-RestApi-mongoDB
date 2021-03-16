@@ -55,7 +55,7 @@ async function signup() {
             });
             const result2 = await response.json();
             document.cookie = "token="+ result2['token'] +"; expires=Thu, 18 Dec 2021 12:00:00 UTC";
-                window.location = './profile.html'
+                window.location = './todo.html'
             }
         }
     }

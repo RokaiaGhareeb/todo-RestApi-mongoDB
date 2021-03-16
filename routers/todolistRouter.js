@@ -45,9 +45,9 @@ todolistRoute.post('/item/:id', async (req, res) => {
 // get all todoLists
 todolistRoute.get('/', async (req, res) => {
     try {
-        const todolist = await TodoList.find({ userId: req.signedData.id}).exec();
+        const todolists = await TodoList.find({ userId: req.signedData.id }).exec();
         res.statusCode = 200;
-        res.send(todolist);
+        res.send(todolists);
 
     } catch (error) {
         res.statusCode = 422;
@@ -60,7 +60,7 @@ todolistRoute.get('/', async (req, res) => {
 todolistRoute.get('/:id', async (req, res) => {
     const id = req.params.id;
     try {
-        const todolists = await TodoList.find({ userId: req.signedData.id,  _id: id }).exec();
+        const todolists = await TodoList.find({ userId: req.signedData.id, _id: id }).exec();
         res.statusCode = 200;
         res.send(todolists);
 
@@ -72,27 +72,27 @@ todolistRoute.get('/:id', async (req, res) => {
 });
 
 //delete a todolist
-todolistRoute.delete('/:id', async(req, res) =>{
+todolistRoute.delete('/:id', async (req, res) => {
     try {
-      const userId = req.signedData.id;
-      const id = req.params.id;
-      await TodoList.deleteOne({userId:userId, _id:id});
-      res.statusCode = 200;
-      res.send({message : 'todolist deleted'});
+        const userId = req.signedData.id;
+        const id = req.params.id;
+        await TodoList.deleteOne({ userId: userId, _id: id });
+        res.statusCode = 200;
+        res.send({ message: 'todolist deleted' });
     } catch (err) {
-      res.statusCode = 422;
-      res.send({message: 'deletion falied'});
+        res.statusCode = 422;
+        res.send({ message: 'deletion falied' });
     }
-  });
+});
 
-  //delete a todolist's item
-  todolistRoute.delete('/item/:listid/:itemid', async (req, res) => {
+//delete a todolist's item
+todolistRoute.delete('/item/:listid/:itemid', async (req, res) => {
     const listid = req.params.listid;
     const itemid = req.params.itemid;
     try {
         const todolist = await TodoList.updateOne(
             { _id: listid },
-            { $pull:  { listItems: { _id:  itemid} }}
+            { $pull: { listItems: { _id: itemid } } }
         );
         res.statusCode = 200;
         res.send(todolist);
@@ -103,22 +103,24 @@ todolistRoute.delete('/:id', async(req, res) =>{
 });
 
 //change status of an item done or not done
-todolistRoute.patch('/changestatus/:listid/:itemid', async(req, res) => {
+todolistRoute.patch('/changestatus/:listid/:itemid', async (req, res) => {
     try {
-      const userId = req.signedData.id;
-      const listid = req.params.listid;
-      const itemid = req.params.itemid;
-      const { done } = req.body;
-      const editedTodoList = await TodoList.updateOne(
-          {
-              userId, _id: listid, 
-              "listItems._id" : itemid},
-              { $set: { 'listItems.$.done' : done } }
+        const userId = req.signedData.id;
+        const listid = req.params.listid;
+        const itemid = req.params.itemid;
+        const { done } = req.body;
+        const editedTodoList = await TodoList.updateOne(
+            {
+                _id: listid,
+                userId,
+                "listItems._id": itemid
+            },
+            { $set: { 'listItems.$.done': done } }
         );
-      res.statusCode = 200;
-      res.send({ status });
+        res.statusCode = 200;
+        res.send({ done });
     } catch (err) {
-      res.statusCode = 422;
-      res.send({message: 'change failed'});
+        res.statusCode = 422;
+        res.send({ message: 'change failed'});
     }
-  });
+});
